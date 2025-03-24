@@ -9,6 +9,8 @@ import { authMiddleware } from "./middleware/authMiddleware";
 import applicationRoutes from './routes/applicationRoutes'
 import leaseRoutes from './routes/leaseRoutes'
 import tenantRoutes from './routes/tenantRoutes'
+import managerRoutes from './routes/managerRoutes'
+
 /* CONFIGURATION */
 dotenv.config();
 const app = express();
@@ -29,6 +31,7 @@ app.get('/', (req,res) => {
 app.use('/applications', applicationRoutes)
 app.use('/leases', leaseRoutes)
 app.use('/tenants', tenantRoutes)
+app.use('/managers', managerRoutes)
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3002

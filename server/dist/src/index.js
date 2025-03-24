@@ -13,6 +13,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const applicationRoutes_1 = __importDefault(require("./routes/applicationRoutes"));
 const leaseRoutes_1 = __importDefault(require("./routes/leaseRoutes"));
 const tenantRoutes_1 = __importDefault(require("./routes/tenantRoutes"));
+const managerRoutes_1 = __importDefault(require("./routes/managerRoutes"));
 /* CONFIGURATION */
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/applications', applicationRoutes_1.default);
 app.use('/leases', leaseRoutes_1.default);
 app.use('/tenants', tenantRoutes_1.default);
+app.use('/managers', managerRoutes_1.default);
 /* SERVER */
 const port = Number(process.env.PORT) || 3002;
 app.listen(port, "0.0.0.0", () => console.log(`Server running on port ${port}`));
