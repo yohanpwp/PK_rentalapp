@@ -38,8 +38,8 @@ export const globalSlice = createSlice({
   name: "global",
   initialState,
   reducers: {
-    setFilters: (state, action: PayloadAction<FilterState>) => {
-      state.filters = { ...state, ...action.payload };
+    setFilters: (state, action: PayloadAction<Partial<FilterState>>) => {
+      state.filters = { ...state.filters, ...action.payload };
     },
     toggleFiltersFullOpen: (state) => {
       state.isFiltersFullOpen = !state.isFiltersFullOpen;

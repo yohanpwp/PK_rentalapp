@@ -19,13 +19,12 @@ const listApplications = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (userId && userType) {
             if (userType === "tenant") {
                 whereClause = { tenantCognitoId: String(userId) };
-            }
-            else if (userType === "manager") {
-                whereClause = {
-                    property: {
-                        managerCognitoId: String(userId),
-                    },
-                };
+                // } else if (userType === "manager") {
+                //   whereClause = {
+                //     property: {
+                //       managerCognitoId: String(userId),
+                //     },
+                //   };
             }
         }
         const applications = yield prisma.application.findMany({
