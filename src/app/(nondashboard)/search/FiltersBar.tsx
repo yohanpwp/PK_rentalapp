@@ -1,8 +1,7 @@
 "use client";
 import { FilterState, setFilters, setViewMode, toggleFiltersFullOpen } from "@/state";
 import { useAppSelector } from "@/state/redux";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
@@ -18,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PropertyTypeIcons } from "@/lib/constants";
+import { useMap } from "@vis.gl/react-google-maps";
 
 const FiltersBar = () => {
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const FiltersBar = () => {
   );
   const viewMode = useAppSelector((state) => state.global.viewMode);
   const [searchInput, setSearchInput] = useState("");
+  const map = useMap();
 
   const updateURL = debounce((newFilters: FilterState) => {
     const cleanFilters = cleanParams(newFilters);
@@ -70,23 +71,23 @@ const FiltersBar = () => {
 
   const handleLocationSearch = async () => {
     try {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-          searchInput
-        )}.json?access_token=${
-          process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-        }&fuzzyMatch=true`
-      );
-      const data = await response.json();
-      if (data.features && data.features.length > 0) {
-        const [lng, lat] = data.features[0].center;
-        dispatch(
-          setFilters({
-            location: searchInput,
-            coordinates: [lng, lat],
-          })
-        );
-      }
+      // const response = await fetch(
+      //   `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+      //     searchInput
+      //   )}.json?access_token=${
+      //     process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+      //   }&fuzzyMatch=true`
+      // );
+      // const data = await response.json();
+      // if (data.features && data.features.length > 0) {
+      //   const [lng, lat] = data.features[0].center;
+      //   dispatch(
+      //     setFilters({
+      //       location: searchInput,
+      //       coordinates: [lng, lat],
+      //     })
+      //   );
+      // }
     } catch (err) {
       console.error("Error search location:", err);
     }
@@ -159,7 +160,7 @@ const FiltersBar = () => {
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="any">Any Min Price</SelectItem>
+              <SelectItem value="any">Any Max Price</SelectItem>
               {[500, 1000, 1500, 2000, 3000, 5000, 10000].map((price) => (
                 <SelectItem key={price} value={price.toString()}>
                   ${price / 1000}k+
